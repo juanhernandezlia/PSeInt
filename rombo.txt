@@ -1,0 +1,133 @@
+// PROGRAMA: Rombo con ascii
+// AUTOR: Juan Hernández Sánchez
+// FECHA: 17/04/2016
+// MATERIA: Programación Orientada a Objetos (Java)
+// COMPILADOR: PSeInt 
+// DSCRIPCION: 
+// Este programa solicita un número que es la base de un triángulo y el cual se imprime hacia arriba y hacia abajo 
+//formando un rombo y el usuario ingresa que caracter (ascii) desea para dibujar el rombo.
+
+Proceso  Rombo
+	//Se solicita el tamaño de la base del triángulo
+	Escribir "Ingrese la base del rombo: (mayor a 3)";
+	leer base;
+	//Se solicita el ascii a imprimir al dibujar el rombo
+	Escribir "Ingrese el ascii que desea utilizar para su rombo";
+	leer char
+	
+	
+	//Se identifica si se trata de un número par o inpar.
+	parInpar = base mod 2;
+	
+	//En el caso de que la base sea menor a dos o la longitud del char fuera mayor a 1, se marca la bandera parInpar=3
+	//que más adelante es la que concluye el programa.
+	si base <= 2 || Longitud(char) != 1
+		parInpar = 3;
+	FinSi
+	
+	//Se definen dos arreglos, uno con el número de espacios a imprimir por línea 
+	//y otro que almacena el número de veces que se imprimira un caracter en pantalla en cada línea
+	dimension arregloEspacios[base]; 
+	dimension arregloAsteriscos[base]; 
+	
+	//Determina cuantas veces se pudo restar base hasta llegar a 1 o 2, si es par o inpar.
+	resta = base; 
+	i=0;
+	
+	//Se inicia la comparativa de acuerdo al tipod e valor ingresado previamente en el campo base
+	Segun parInpar Hacer
+		0:
+			//Este ciclo resta el número otorgado hasta llegar a 2, ya que al ser un número par, 
+			//el rombo deberá tener en la punta solo 2 asteríscos
+			Repetir
+				arregloAsteriscos[i] =  resta;
+				resta = resta -2; 
+				i= i+1; 
+			Hasta Que resta = 2;
+			
+			//se aumenta en uno el total de restas y se añade el valor 1 a la posición última de i
+			totalRestas = i+1;
+			arregloAsteriscos[i] = 1;
+			inpar = 1;
+			
+			//Se manda el mensaje a los métodos que imprimen el rombo
+			trianguloArriba(totalRestas,numeroDeVeces,arregloAsteriscos,inpar,char);
+			trianguloAbajo(totalRestas,arregloAsteriscos,inpar,char);
+			
+		1:
+			//Este ciclo resta el número otorgado hasta llegar a 1, ya que al ser un número par, 
+			//el rombo deberá tener en la punta solo 1 asterísco
+			Repetir
+				arregloAsteriscos[i] =  resta;
+				resta = resta -2; 
+				i= i+1; 
+			Hasta Que resta = 1;
+			
+			//se aumenta en uno el total de restas y se añade el valor 1 a la posición última de i
+			totalRestas = i+1;
+			arregloAsteriscos[i] = 1;
+			//Se identifica a la operación con base par
+			inpar=0;
+			
+			//Se envían los mensajes a las funciones corresponientes
+			trianguloArriba(totalRestas,numeroDeVeces,arregloAsteriscos,inpar,char);
+			trianguloAbajo(totalRestas,arregloAsteriscos,inpar,char);
+					
+		De Otro Modo:
+			Escribir "Los valores ingresados no son válidos. (base menor a 3 y/o ascii de más de una posición"
+	Fin Segun
+FinProceso
+
+//Esta funcion dibuja en pantalla un triángulo hacia arriba
+Funcion trianguloAbajo (totalRestas, arregloAsteriscos,inpar,char)
+	
+	//Se repite el número de veces que se pudo restar la base -2
+	Para m<-1 Hasta totalRestas Con Paso 1 Hacer
+		numeroDeVeces<-m-1;
+		
+		//Se repite el número de veces los espacios necesarios para dar forma al triángulo iniciando por la punta
+		Para i<-1 Hasta numeroDeVeces+2 Con Paso 1 Hacer
+			Escribir " " Sin Saltar
+		Fin Para
+		numeroAsterisco<-arregloAsteriscos[m];
+		
+		//Se repite el número de veces el caracter elegido para dar forma al triángulo 
+		Para k<-1 Hasta numeroAsterisco Con Paso 1 Hacer
+			// en el caso de que el número base sea par, el triángulo inicia con 2 caracteres en lugar de uno para darle 
+			// una mejor apariencia
+			si numeroAsterisco = 1 && inpar != 0
+				Escribir char Sin Saltar
+			FinSi
+			Escribir char Sin Saltar
+		Fin Para
+		
+		Escribir ""
+	Fin Para
+	
+Fin Funcion
+
+Funcion trianguloArriba (totalRestas,numeroDeVeces,arregloAsteriscos,inpar,char)
+	Para j<-totalRestas-1 Hasta 0 Con Paso -1 Hacer
+		numeroDeVeces<-j;
+		
+		//Se repite el número de veces los espacios necesarios para dar forma al triángulo iniciando por la punta
+		Para i<-0 Hasta numeroDeVeces Con Paso 1 Hacer
+			Escribir " " Sin Saltar
+		Fin Para
+		
+		numeroAsterisco<-arregloAsteriscos[j];//
+		
+		//Se repite el número de veces el caracter elegido para dar forma al triángulo 
+		Para k<-1 Hasta numeroAsterisco Con Paso 1 Hacer
+			// en el caso de que el número base sea par, el triángulo inicia con 2 caracteres en lugar de uno para darle 
+			// una mejor apariencia
+			si numeroAsterisco = 1 && inpar != 0
+				Escribir char Sin Saltar
+			FinSi
+			Escribir char Sin Saltar
+		Fin Para
+		Escribir  ""
+	Fin Para
+Fin Funcion
+
+
